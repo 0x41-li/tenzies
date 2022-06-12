@@ -12,7 +12,7 @@ export default function Game() {
     for (let i = 0; i < 10; i++) {
       arr.push({
         id: nanoid(),
-        value: Math.round(Math.random() * 6),
+        value: randomValue(6),
         isHeld: false,
       });
     }
@@ -20,12 +20,34 @@ export default function Game() {
     return arr;
   }
 
+  function randomValue(max) {
+    return Math.round(Math.random() * max);
+  }
+
   function rollDices() {
     setDices(generateNewDices());
   }
 
+  function heldDice(id) {
+    setDices((oldDices) => {
+      return oldDices.map((item) => {
+        return item.id === id
+          ? {
+              ...item,
+              isHeld: !item.isHeld,
+            }
+          : item;
+      });
+    });
+  }
+
   const diceElements = dices.map((item) => (
-    <Die value={item.value} key={item.id} />
+    <Die
+      value={item.value}
+      key={item.id}
+      heldDice={(id) => heldDice(item.id)}
+      isHeld={item.isHeld}
+    />
   ));
 
   return (
