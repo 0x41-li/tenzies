@@ -29,7 +29,7 @@ export default function Game() {
   }
 
   function randomValue(max) {
-    return Math.round(Math.random() * max);
+    return Math.ceil(Math.random() * max);
   }
 
   function rollDices() {
