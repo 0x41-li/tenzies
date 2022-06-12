@@ -5,18 +5,23 @@ import { nanoid } from "nanoid";
 import Die from "./Die";
 
 export default function Game() {
-  const [dices, setDices] = useState(generateAllNewDices());
+  const [dices, setDices] = useState(generateNewDices());
 
-  function generateAllNewDices() {
+  function generateNewDices() {
     const arr = [];
     for (let i = 0; i < 10; i++) {
       arr.push({
         id: nanoid(),
         value: Math.round(Math.random() * 6),
+        isHeld: false,
       });
     }
 
     return arr;
+  }
+
+  function rollDices() {
+    setDices(generateNewDices());
   }
 
   const diceElements = dices.map((item) => (
@@ -31,7 +36,9 @@ export default function Game() {
         current value between rolls.
       </p>
       <div className="game-board__dices">{diceElements}</div>
-      <button className="game-board__btn">Roll</button>
+      <button className="game-board__btn" onClick={rollDices}>
+        Roll
+      </button>
     </div>
   );
 }
