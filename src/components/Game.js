@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import { nanoid } from "nanoid";
 
 // components
 import Die from "./Die";
 
 export default function Game() {
-  const dicesValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [dices, setDices] = useState(generateAllNewDices());
 
-  const dices = dicesValues.map((val) => <Die value={val} />);
+  function generateAllNewDices() {
+    const arr = [];
+    for (let i = 0; i < 10; i++) {
+      arr.push({
+        id: nanoid(),
+        value: Math.round(Math.random() * 6),
+      });
+    }
+
+    return arr;
+  }
+
+  const diceElements = dices.map((item) => (
+    <Die value={item.value} key={item.id} />
+  ));
 
   return (
     <div className="game-board">
@@ -15,9 +30,7 @@ export default function Game() {
         Roll until all dice are the same. Click each die to freeze it at its
         current value between rolls.
       </p>
-      <div className="game-board__dices">
-        {dices}
-      </div>
+      <div className="game-board__dices">{diceElements}</div>
       <button className="game-board__btn">Roll</button>
     </div>
   );
