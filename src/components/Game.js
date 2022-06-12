@@ -20,12 +20,24 @@ export default function Game() {
     return arr;
   }
 
+  function generateDice() {
+    return {
+      id: nanoid(),
+      value: randomValue(6),
+      isHeld: false,
+    };
+  }
+
   function randomValue(max) {
     return Math.round(Math.random() * max);
   }
 
   function rollDices() {
-    setDices(generateNewDices());
+    setDices((oldDices) => {
+      return oldDices.map((die) => {
+        return die.isHeld ? die : generateDice();
+      });
+    });
   }
 
   function heldDice(id) {
